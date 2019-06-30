@@ -65,41 +65,29 @@
 package org.apache.catalina.loader;
 
 
+import org.apache.catalina.*;
+import org.apache.catalina.util.LifecycleSupport;
+import org.apache.catalina.util.StringManager;
+import org.apache.naming.resources.DirContextURLStreamHandler;
+import org.apache.naming.resources.DirContextURLStreamHandlerFactory;
+import org.apache.naming.resources.Resource;
+
+import javax.naming.Binding;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.servlet.ServletContext;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.FileOutputStream;
-import java.io.FilePermission;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLStreamHandlerFactory;
 import java.util.jar.JarFile;
-import javax.servlet.ServletContext;
-import javax.naming.NamingException;
-import javax.naming.Binding;
-import javax.naming.NameClassPair;
-import javax.naming.NamingEnumeration;
-import javax.naming.directory.DirContext;
-import org.apache.naming.resources.Resource;
-import org.apache.naming.resources.DirContextURLStreamHandler;
-import org.apache.naming.resources.DirContextURLStreamHandlerFactory;
-import org.apache.catalina.Container;
-import org.apache.catalina.Context;
-import org.apache.catalina.DefaultContext;
-import org.apache.catalina.Globals;
-import org.apache.catalina.Lifecycle;
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.LifecycleListener;
-import org.apache.catalina.Loader;
-import org.apache.catalina.Logger;
-import org.apache.catalina.util.LifecycleSupport;
-import org.apache.catalina.util.StringManager;
 
 
 /**
@@ -1050,10 +1038,10 @@ public class WebappLoader
 
             // Looking up directory /WEB-INF/lib in the context
             try {
-                NamingEnumeration enum = resources.listBindings(libPath);
-                while (enum.hasMoreElements()) {
+                NamingEnumeration enum1 = resources.listBindings(libPath);
+                while (enum1.hasMoreElements()) {
 
-                    Binding binding = (Binding) enum.nextElement();
+                    Binding binding = (Binding) enum1.nextElement();
                     String filename = libPath + "/" + binding.getName();
                     if (!filename.endsWith(".jar"))
                         continue;
@@ -1150,10 +1138,10 @@ public class WebappLoader
 
         try {
 
-            NamingEnumeration enum = srcDir.list("");
-            while (enum.hasMoreElements()) {
+            NamingEnumeration enum1 = srcDir.list("");
+            while (enum1.hasMoreElements()) {
                 NameClassPair ncPair =
-                    (NameClassPair) enum.nextElement();
+                    (NameClassPair) enum1.nextElement();
                 String name = ncPair.getName();
                 Object object = srcDir.lookup(name);
                 File currentFile = new File(destDir, name);

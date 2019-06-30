@@ -64,10 +64,10 @@
 
 package org.apache.naming.resources;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import javax.naming.NamingException;
 import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * Naming enumeration implementation.
@@ -101,7 +101,7 @@ public class RecyclableNamingEnumeration
     /**
      * Underlying enumeration.
      */
-    protected Enumeration enum;
+    protected Enumeration enum1;
 
 
     // --------------------------------------------------------- Public Methods
@@ -121,7 +121,7 @@ public class RecyclableNamingEnumeration
      */
     public boolean hasMore()
         throws NamingException {
-        return enum.hasMoreElements();
+        return enum1.hasMoreElements();
     }
 
 
@@ -134,12 +134,12 @@ public class RecyclableNamingEnumeration
 
 
     public boolean hasMoreElements() {
-        return enum.hasMoreElements();
+        return enum1.hasMoreElements();
     }
 
 
     public Object nextElement() {
-        return enum.nextElement();
+        return enum1.nextElement();
     }
 
 
@@ -150,7 +150,7 @@ public class RecyclableNamingEnumeration
      * Recycle.
      */
     void recycle() {
-        enum = entries.elements();
+        enum1 = entries.elements();
     }
 
 

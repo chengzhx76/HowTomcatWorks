@@ -64,44 +64,28 @@
 
 package org.apache.catalina.loader;
 
-import java.io.File;
-import java.io.FilePermission;
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.security.AccessControlException;
-import java.security.AccessController;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.Policy;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-import java.util.jar.JarFile;
-import java.util.jar.JarEntry;
-import java.util.jar.Manifest;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-
-import javax.naming.directory.DirContext;
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
-import javax.naming.NameClassPair;
-
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleListener;
-
 import org.apache.naming.JndiPermission;
-import org.apache.naming.resources.ResourceAttributes;
 import org.apache.naming.resources.Resource;
+import org.apache.naming.resources.ResourceAttributes;
+
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.security.*;
+import java.util.*;
+import java.util.jar.Attributes;
+import java.util.jar.Attributes.Name;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 /**
  * Specialized web application class loader.
@@ -815,10 +799,10 @@ public class WebappClassLoader
         if (getJarPath() != null) {
 
             try {
-                NamingEnumeration enum = resources.listBindings(getJarPath());
+                NamingEnumeration enum1 = resources.listBindings(getJarPath());
                 int i = 0;
-                while (enum.hasMoreElements() && (i < length)) {
-                    NameClassPair ncPair = (NameClassPair) enum.nextElement();
+                while (enum1.hasMoreElements() && (i < length)) {
+                    NameClassPair ncPair = (NameClassPair) enum1.nextElement();
                     String name = ncPair.getName();
                     // Ignore non JARs present in the lib folder
                     if (!name.endsWith(".jar"))
@@ -831,10 +815,10 @@ public class WebappClassLoader
                     }
                     i++;
                 }
-                if (enum.hasMoreElements()) {
-                    while (enum.hasMoreElements()) {
+                if (enum1.hasMoreElements()) {
+                    while (enum1.hasMoreElements()) {
                         NameClassPair ncPair =
-                            (NameClassPair) enum.nextElement();
+                            (NameClassPair) enum1.nextElement();
                         String name = ncPair.getName();
                         // Additional non-JAR files are allowed
                         if (name.endsWith(".jar")) {
@@ -1031,9 +1015,9 @@ public class WebappClassLoader
 
 
     /**
-     * Return an enumeration of <code>URLs</code> representing all of the
+     * Return an enum1eration of <code>URLs</code> representing all of the
      * resources with the given name.  If no resources with this name are
-     * found, return an empty enumeration.
+     * found, return an empty enum1eration.
      *
      * @param name Name of the resources to be found
      *

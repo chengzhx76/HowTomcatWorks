@@ -1,9 +1,11 @@
 package ex01.pyrmont;
 
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.FileInputStream;
+import cn.hutool.core.io.FileUtil;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /*
   HTTP Response = Status-Line
@@ -33,12 +35,21 @@ public class Response {
     try {
       File file = new File(HttpServer.WEB_ROOT, request.getUri());
       if (file.exists()) {
-        fis = new FileInputStream(file);
+        /*fis = new FileInputStream(file);
         int ch = fis.read(bytes, 0, BUFFER_SIZE);
         while (ch!=-1) {
           output.write(bytes, 0, ch);
           ch = fis.read(bytes, 0, BUFFER_SIZE);
-        }
+        }*/
+
+        String body = FileUtil.readUtf8String(file);
+        //String body = "<h1>welcome you</h1>";
+        String header = "HTTP/1.1 200 ok\r\n" +
+                        "Content-Type: text/html\r\n" +
+                        "Content-Length: " + body.length() +"\r\n" +
+                        "\r\n";
+        output.write((header+body).getBytes());
+
       }
       else {
         // file not found

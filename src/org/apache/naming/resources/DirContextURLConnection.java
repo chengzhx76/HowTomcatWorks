@@ -63,24 +63,23 @@
 
 package org.apache.naming.resources;
 
-import java.net.URL;
-import java.net.URLConnection;
+import org.apache.naming.JndiPermission;
+
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileNotFoundException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.Permission;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
-import javax.naming.NameClassPair;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import org.apache.naming.JndiPermission;
-import org.apache.naming.resources.Resource;
-import org.apache.naming.resources.ResourceAttributes;
 
 /**
  * Connection to a JNDI directory context.
@@ -386,9 +385,9 @@ public class DirContextURLConnection
         
         if (collection != null) {
             try {
-                NamingEnumeration enum = context.list(getURL().getFile());
-                while (enum.hasMoreElements()) {
-                    NameClassPair ncp = (NameClassPair) enum.nextElement();
+                NamingEnumeration enum1 = context.list(getURL().getFile());
+                while (enum1.hasMoreElements()) {
+                    NameClassPair ncp = (NameClassPair) enum1.nextElement();
                     result.addElement(ncp.getName());
                 }
             } catch (NamingException e) {
